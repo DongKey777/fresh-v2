@@ -1,30 +1,38 @@
 version: "3.8"
 services:
-  # postgresql:
-  #   image: postgres:14.2
-  #   restart: always
-  #   volumes:
-  #     - ./postgresql/data:/var/lib/postgresql/data
-  #   ports:
-  #     - '5432:5432'
-  #   environment:
-  #     POSTGRES_DB: ${DB_NAME}
-  #     TZ: "Asia/Seoul"
-  node:
-    # image: node:14
-    working_dir: /usr/src/app
-    build:
-      # context: ./
-      dockerfile: Dockerfile
-    environment:
-      - DB_USER=${DB_USER}
-      - DB_HOST=${DB_HOST}
-      - DB_NAME=${DB_NAME}
-      - DB_PW=${DB_PW}
-      - DB_TYPE=postgres
-      - NODE_ENV=development
+  postgresql:
+    image: postgres:14.2
+    restart: always
     volumes:
-      - ./src:/app
+      - ./postgresql/data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_PASSWORD: ${DB_PW}
+      POSTGRES_NAME: ${DB_NAME}
+      POSTGRRES_USER: ${DB_USER}
+      TZ: "Asia/Seoul"
+  node:
+    depends_on:
+      - postgresql
+    working_dir: /usr/src/app
+    env_file:
+      - .env
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    
+    # environment:
+    #   - DB_USER: ${DB_USER}
+    #   - DB_HOST: ${DB_HOST}
+    #   - DB_NAME: ${DB_NAME}
+    #   - DB_PW: ${DB_PW}
+    #   - DB_TYPE: postgres
+    #   - NODE_ENV: development
+    volumes:
+      - ./:/app
+
     ports:
       - 80:3000
     command: bash -c "npm start"
