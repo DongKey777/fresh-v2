@@ -1,9 +1,9 @@
 {    
-    "singleQuote": "true",
+    "singleQuote": true,
 
-    "semi": "true",
+    "semi": true,
 
-    "useTabs": "false",
+    "useTabs": false,
 
     "tabWidth": 4,
 
