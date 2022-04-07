@@ -2,8 +2,8 @@ FROM node:17.8.0
 
 WORKDIR /usr/src/app
 
-COPY ["package-lock.json", "/usr/src/app"] && ["package.json", "/usr/src/app"]
+COPY ["./", "./"]
+# COPY ["package-lock.json", "./"]
 
-RUN ["npm","-g","install"]
-
-COPY [".", "/usr/src/app"]
+# COPY ["package.json", "./"]
+RUN npm install
