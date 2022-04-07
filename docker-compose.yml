@@ -22,17 +22,8 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    
-    # environment:
-    #   - DB_USER: ${DB_USER}
-    #   - DB_HOST: ${DB_HOST}
-    #   - DB_NAME: ${DB_NAME}
-    #   - DB_PW: ${DB_PW}
-    #   - DB_TYPE: postgres
-    #   - NODE_ENV: development
     volumes:
       - ./:/app
-
     ports:
       - 80:3000
     command: bash -c "npm start"
