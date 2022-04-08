@@ -199,4 +199,4 @@ zsdoc/data
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,linux,zsh
 
-postgresql/data
+postgresql/data/*
