@@ -31,6 +31,7 @@ class Product extends Model {
         db.Product.belongsTo(db.Category, {targetKey: "id"});
         db.Product.belongsToMany(db.Option, {through: db.ProductOption});
         db.Product.belongsToMany(db.Allergy, {through: db.ProductAllergy});
+        db.Product.belongsTo(db.Subscruption, {targetKey: "id"});
     }
 }
 
