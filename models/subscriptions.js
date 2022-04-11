@@ -1,23 +1,40 @@
 const Sequelize = require('sequelize');
 
-class Subscription extends Model{
-    static init(sequelize, DataTypes){
+module.exports = class Subscription extends Sequelize.Model{
+    static init(sequelize){
         return super.init({
             size: {
-                types: DataTypes.STRING(30)
+                type: Sequelize.STRING(30),
+                allowNull: false
             },
             start_date:{
-                types: DataTypes.DATE
+                type: Sequelize.DATE,
+                allowNull: false
             },
             end_date:{
-                types: DataTypes.DATE
+                type: Sequelize.DATE,
+                allowNull: false
             },
             shipping_method: {
-                types: DataTypes.INTEGER.UNSIGNED
+                type: Sequelize.INTEGER.UNSIGNED,
+                allowNull: false
+            },
+            deleted_fl: {
+                type: Sequelize.BOOLEAN,
+                defaultValue: false
             }
+        },{
+            sequelize,
+            timestamp: true,
+            underscored: true, // camel case -> snake case
+            modelName: 'Subscription', 
+            tableName: 'subscriptions', // 실제 db table 명
+            paranoid: true, // deleted at, soft delete 설정 여부, timestamp: true 인 경우에만 사용 가능 
+            charset: 'utf8mb4',
+            collate: 'utf8mb4_general_cli'
         });
     }
     static associate(db){
-        db.Subscription.hasMany(db.Product, {sourceKey: "id"});
+        db.Subscription.hasMany(db.Product, {foreignKey: "subscription", sourceKey: "id"});
     }
 }
