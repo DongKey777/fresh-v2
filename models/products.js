@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = class Product extends Sequelize.Model {
+class Product extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -35,7 +35,7 @@ module.exports = class Product extends Sequelize.Model {
   }
 };
 
-module.exports = class Option extends Sequelize.Model {
+class Option extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -61,12 +61,12 @@ module.exports = class Option extends Sequelize.Model {
   }
 };
 
-module.exports = class ProductOption extends Sequelize.Model {
+class ProductOption extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
         price: {
-          type: Sequelize.INTEGER.UNSIGNED,
+          type: Sequelize.INTEGER,
           allowNull: false,
         },
       },
@@ -84,12 +84,12 @@ module.exports = class ProductOption extends Sequelize.Model {
   static associate(db) {
     db.ProductOption.hasMany(db.Subscription, {
       foreignKey: 'product_option',
-      sourceKey: 'id',
+      
     });
   }
 };
 
-module.exports = class Category extends Sequelize.Model {
+class Category extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -117,7 +117,7 @@ module.exports = class Category extends Sequelize.Model {
   }
 };
 
-module.exports = class Allergy extends Sequelize.Model {
+class Allergy extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -143,7 +143,7 @@ module.exports = class Allergy extends Sequelize.Model {
   }
 };
 
-module.exports = class ProductAllergy extends Sequelize.Model {
+class ProductAllergy extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {},
@@ -159,3 +159,12 @@ module.exports = class ProductAllergy extends Sequelize.Model {
     );
   }
 };
+
+module.exports = {
+  Product: Product,
+  Option: Option,
+  ProductOption: ProductOption,
+  Category: Category,
+  Allergy: Allergy,
+  ProductAllergy: ProductAllergy,
+}

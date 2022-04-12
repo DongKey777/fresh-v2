@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = class Subscription extends Sequelize.Model {
+class Subscription extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -8,19 +8,19 @@ module.exports = class Subscription extends Sequelize.Model {
           type: Sequelize.STRING(30),
           allowNull: false,
         },
-        start_date: {
+        startDate: {
           type: Sequelize.DATE,
           allowNull: false,
         },
-        end_date: {
+        endDate: {
           type: Sequelize.DATE,
           allowNull: false,
         },
-        shipping_method: {
-          type: Sequelize.INTEGER.UNSIGNED,
+        shippingMethod: {
+          type: Sequelize.INTEGER,
           allowNull: false,
         },
-        deleted_fl: {
+        deletedFl: {
           type: Sequelize.BOOLEAN,
           defaultValue: false,
         },
@@ -40,7 +40,10 @@ module.exports = class Subscription extends Sequelize.Model {
   static associate(db) {
     db.Subscription.belongsTo(db.ProductOption, {
       foreignKey: 'product_option',
-      targetKey: 'id',
     });
   }
 };
+
+module.exports = {
+  Subscription: Subscription
+}

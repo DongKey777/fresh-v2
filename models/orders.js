@@ -1,6 +1,7 @@
+const { ConnectionTimedOutError } = require('sequelize');
 const Sequelize = require('sequelize');
 
-module.exports = class Order extends Sequelize.Model {
+class Order extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -10,7 +11,7 @@ module.exports = class Order extends Sequelize.Model {
           unique: true,
         },
         orderStatus: {
-          type: Sequelize.INTEGER.UNSIGNED,
+          type: Sequelize.INTEGER,
         },
       },
       {
@@ -25,12 +26,12 @@ module.exports = class Order extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Order.belongsto(db.User, { foreignkey: 'user', sourcekey: 'id' });
-    db.Order.belongsToMany(Product, { through: 'OrderItem' });
+    db.Order.belongsTo(db.User, { foreignkey: 'user', sourcekey: 'id' });
+    db.Order.belongsToMany(db.Product, { through: 'OrderItem' });
   }
 };
 
-module.exports = class OrderItem extends Sequelize.Moded {
+class OrderItem extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -44,7 +45,7 @@ module.exports = class OrderItem extends Sequelize.Moded {
           type: Sequelize.INTEGER,
         },
         oderItemStatus: {
-          type: Sequelize.INTEGER.UNSIGNED,
+          type: Sequelize.INTEGER,
         },
       },
       {
@@ -59,3 +60,8 @@ module.exports = class OrderItem extends Sequelize.Moded {
     );
   }
 };
+
+module.exports = {
+  Order: Order,
+  OrderItem: OrderItem,
+}
