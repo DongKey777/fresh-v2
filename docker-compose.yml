@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 services:
   postgresql:
     image: postgres:14.2
@@ -12,7 +12,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PW}
       POSTGRES_NAME: ${DB_NAME}
       POSTGRRES_USER: ${DB_USER}
-      TZ: "Asia/Seoul"
+      TZ: 'Asia/Seoul'
   node:
     depends_on:
       - postgresql
