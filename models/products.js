@@ -13,6 +13,9 @@ class Product extends Sequelize.Model {
           type: Sequelize.TEXT(50),
           allowNull: true,
         },
+        method: {
+          type: Sequelize.INTEGER,
+        }
       },
       {
         sequelize,

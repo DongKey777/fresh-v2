@@ -17,5 +17,14 @@ const orderStatusEnum = new Enum({
   CANCELED: 3,
 });
 
-module.exports = orderStatusEnum;
-module.exports = shippingMethodEnum;
+const purchaseMethodEnum = new Enum({
+  SUBSCRIPTION: 1,
+  NORMAL: 2,
+  BOTH: 3,
+});
+
+module.exports = {
+orderStatusEnum: orderStatusEnum,
+shippingMethodEnum : shippingMethodEnum,
+purchaseMethodEnum : purchaseMethodEnum,
+}
