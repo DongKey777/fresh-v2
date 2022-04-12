@@ -1,20 +1,17 @@
-const sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 
-class Product extends Model {
-  static init(sequelize, DataTypes) {
+module.exports = class Product extends Sequelize.Model {
+  static init(sequelize) {
     return super.init(
       {
         name: {
-          type: DataTypes.STRING(50),
+          type: Sequelize.STRING(50),
           allowNull: false,
           unique: true,
         },
         description: {
-          type: DataTypes.TEXT(50),
+          type: Sequelize.TEXT(50),
           allowNull: true,
-        },
-        category: {
-          foreignKey: true,
         },
       },
       {
@@ -23,26 +20,27 @@ class Product extends Model {
         underscored: true, // camel case -> snake case
         modelName: 'Product',
         tableName: 'products', // 실제 db table 명
-        paranoid: true, // deleted at, soft delete 설정 여부, timestamp: true 인 경우에만 사용 가능
         charset: 'utf8mb4',
         collate: 'utf8mb4_general_cli',
       }
     );
   }
   static associate(db) {
-    db.Product.belongsTo(db.Category, { targetKey: 'id' });
+    db.Product.belongsTo(db.Category, {
+      foreignKey: 'category',
+      targetKey: 'id',
+    });
     db.Product.belongsToMany(db.Option, { through: db.ProductOption });
     db.Product.belongsToMany(db.Allergy, { through: db.ProductAllergy });
-    db.Product.belongsToMany(db.Order, { through: 'OrderItem' });
   }
-}
+};
 
-class Option extends Model {
-  static init(sequelize, DataTypes) {
+module.exports = class Option extends Sequelize.Model {
+  static init(sequelize) {
     return super.init(
       {
         name: {
-          type: DataTypes.STRING(50),
+          type: Sequelize.STRING(50),
           allowNull: false,
           unique: true,
         },
@@ -53,7 +51,6 @@ class Option extends Model {
         underscored: true, // camel case -> snake case
         modelName: 'Option',
         tableName: 'options', // 실제 db table 명
-        paranoid: true, // deleted at, soft delete 설정 여부, timestamp: true 인 경우에만 사용 가능
         charset: 'utf8mb4',
         collate: 'utf8mb4_general_cli',
       }
@@ -62,14 +59,15 @@ class Option extends Model {
   static associate(db) {
     db.Option.belongsToMany(db.Product, { through: db.ProductOption });
   }
-}
+};
 
-class ProductOption extends Model {
-  static init(sequelize, DataTypes) {
+module.exports = class ProductOption extends Sequelize.Model {
+  static init(sequelize) {
     return super.init(
       {
         price: {
-          type: DataTypes.INTEGER.UNSIGNED,
+          type: Sequelize.INTEGER.UNSIGNED,
+          allowNull: false,
         },
       },
       {
@@ -78,26 +76,26 @@ class ProductOption extends Model {
         underscored: true, // camel case -> snake case
         modelName: 'ProductOption',
         tableName: 'products_options', // 실제 db table 명
-        paranoid: true, // deleted at, soft delete 설정 여부, timestamp: true 인 경우에만 사용 가능
         charset: 'utf8mb4',
         collate: 'utf8mb4_general_cli',
       }
     );
   }
   static associate(db) {
-    db.ProductOption.hasMany(db.Cart, {
-      foreignKey: 'product',
+    db.ProductOption.hasMany(db.Subscription, {
+      foreignKey: 'product_option',
       sourceKey: 'id',
     });
   }
-}
+};
 
-class Category extends Model {
-  static init(sequelize, DataTypes) {
+module.exports = class Category extends Sequelize.Model {
+  static init(sequelize) {
     return super.init(
       {
         name: {
-          type: DataTypes.STRING(50),
+          type: Sequelize.STRING(50),
+          allowNull: false,
         },
       },
       {
@@ -112,16 +110,20 @@ class Category extends Model {
     );
   }
   static associate(db) {
-    db.Category.hasMany(db.Product, { sourceKey: 'id' });
+    db.Category.hasMany(db.Product, {
+      foreignKey: 'category',
+      sourceKey: 'id',
+    });
   }
-}
+};
 
-class Allergy extends Model {
-  static init(sequelize, DataTypes) {
+module.exports = class Allergy extends Sequelize.Model {
+  static init(sequelize) {
     return super.init(
       {
         name: {
-          type: DataTypes.STRING(30),
+          type: Sequelize.STRING(30),
+          allowNull: false,
         },
       },
       {
@@ -139,10 +141,10 @@ class Allergy extends Model {
     db.Allergy.belongsToMany(db.Product, { through: db.ProductAllergy });
     db.Allergy.belongsToMany(db.User, { through: db.UserAllergy });
   }
-}
+};
 
-class ProductAllergy extends Model {
-  static init(sequelize, DataTypes) {
+module.exports = class ProductAllergy extends Sequelize.Model {
+  static init(sequelize) {
     return super.init(
       {},
       {
@@ -156,4 +158,4 @@ class ProductAllergy extends Model {
       }
     );
   }
-}
+};

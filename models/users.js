@@ -1,23 +1,28 @@
-const sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 
-class User extends Model {
-  static init(sequelize, DataTypes) {
+module.exports = class User extends Sequelize.Model {
+  static init(sequelize) {
     return super.init(
       {
         email: {
-          type: DataTypes.STRING(50),
+          type: Sequelize.STRING(50),
           allowNull: false,
           unique: true,
         },
         password: {
-          type: DataTypes.STRING(500),
+          type: Sequelize.STRING(500),
           allowNull: false,
         },
         name: {
-          type: DataTypes.STRING(50),
+          type: Sequelize.STRING(50),
         },
         image: {
-          type: DataTypes.STRING(2000),
+          type: Sequelize.STRING(2000),
+          allowNull: true,
+        },
+        deleted_fl: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: false,
         },
       },
       {
@@ -34,12 +39,15 @@ class User extends Model {
   }
   static associate(db) {
     db.User.belogsToMany(db.Allergy, { through: db.UserAllergy });
-    db.User.belogsTo(db.Subscruption, { targetKey: 'id' });
+    db.User.belogsTo(db.Subscruption, {
+      foreignKey: 'subscription',
+      targetKey: 'id',
+    });
   }
-}
+};
 
-class UserAllergy extends Model {
-  static init(sequelize, DataTypes) {
+module.exports = class UserAllergy extends Sequelize.Model {
+  static init(sequelize) {
     return super.init(
       {},
       {
@@ -53,4 +61,4 @@ class UserAllergy extends Model {
       }
     );
   }
-}
+};
