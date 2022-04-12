@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = class Cart extends Sequelize.Model {
+ class Cart extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {},
@@ -22,3 +22,7 @@ module.exports = class Cart extends Sequelize.Model {
     });
   }
 };
+
+module.exports = {
+  Cart : Cart
+}

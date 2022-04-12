@@ -39,4 +39,8 @@ app.use(function (err, req, res) {
   res.render('error');
 });
 
+const sequelize = require('./models').sequelize;
+
+sequelize.sync();
+
 module.exports = app;
