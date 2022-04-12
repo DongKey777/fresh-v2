@@ -1,11 +1,21 @@
 const Enum = require('enum');
 
-const shippingMethod = new Enum(
-    {
-        'Normal': 1,
-        'Spot': 2,
-        'Dawn': 3
-    }
-)
+const shippingMethodEnum = new Enum({
+  NORMAL: 1,
+  SPOT: 2,
+  DAWN: 3,
+});
 
-module.exports = shippingMethod
+const orderItemStatusEnum = new Enum({
+  ORDERED: 1,
+  SHIPPED: 2,
+  ARRIVED: 3,
+});
+const orderStatusEnum = new Enum({
+  PENDING: 1,
+  CONFIRMED: 2,
+  CANCELED: 3,
+});
+
+module.exports = orderStatusEnum;
+module.exports = shippingMethodEnum;

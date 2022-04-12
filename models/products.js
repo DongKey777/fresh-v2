@@ -82,7 +82,10 @@ module.exports = class ProductOption extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.ProductOption.hasMany(db.Subscription);
+    db.ProductOption.hasMany(db.Subscription, {
+      foreignKey: 'product_option',
+      sourceKey: 'id',
+    });
   }
 };
 
