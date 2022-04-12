@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = class User extends Sequelize.Model {
+class User extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -38,15 +38,14 @@ module.exports = class User extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.User.belogsToMany(db.Allergy, { through: db.UserAllergy });
-    db.User.belogsTo(db.Subscruption, {
+    db.User.belongsToMany(db.Allergy, { through: db.UserAllergy });
+    db.User.belongsTo(db.Subscription, {
       foreignKey: 'subscription',
-      targetKey: 'id',
     });
   }
 };
 
-module.exports = class UserAllergy extends Sequelize.Model {
+class UserAllergy extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {},
@@ -62,3 +61,8 @@ module.exports = class UserAllergy extends Sequelize.Model {
     );
   }
 };
+
+module.exports = {
+  User : User,
+  UserAllergy: UserAllergy,
+}
