@@ -203,3 +203,4 @@ zsdoc/data
 postgresql/data/
 node_modules/
 .env
+secretKey.js
