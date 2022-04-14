@@ -4,12 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const { swaggerUi, specs } = require('./config/swagger');
+const { sequelize } = require('./models');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
-
-const { sequelize } = require('./models');
 
 var app = express();
 // view engine setup
@@ -42,8 +41,6 @@ app.use(function (err, req, res) {
   res.render('error');
 });
 
-// const sequelize = require('./models').sequelize;
-
-// sequelize.sync();
+sequelize.sync();
 
 module.exports = app;
