@@ -23,7 +23,7 @@ csvData.shift();
 const pool = new Pool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
-  database: process.env.DB_NAME,
+  database: process.env.DB_NAME_TEST,
   password: process.env.DB_PW,
   port: process.env.DB_PORT,
 });
@@ -42,8 +42,7 @@ pool.connect((err, client, done) => {
       });
     });
   } finally {
+    console.log('done');
     done();
   }
 });
-
-console.log('done');

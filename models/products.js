@@ -15,7 +15,7 @@ class Product extends Sequelize.Model {
         },
         method: {
           type: Sequelize.INTEGER,
-        }
+        },
       },
       {
         sequelize,
@@ -36,7 +36,7 @@ class Product extends Sequelize.Model {
     db.Product.belongsToMany(db.Option, { through: db.ProductOption });
     db.Product.belongsToMany(db.Allergy, { through: db.ProductAllergy });
   }
-};
+}
 
 class Option extends Sequelize.Model {
   static init(sequelize) {
@@ -62,7 +62,7 @@ class Option extends Sequelize.Model {
   static associate(db) {
     db.Option.belongsToMany(db.Product, { through: db.ProductOption });
   }
-};
+}
 
 class ProductOption extends Sequelize.Model {
   static init(sequelize) {
@@ -87,10 +87,9 @@ class ProductOption extends Sequelize.Model {
   static associate(db) {
     db.ProductOption.hasMany(db.Subscription, {
       foreignKey: 'product_option',
-      
     });
   }
-};
+}
 
 class Category extends Sequelize.Model {
   static init(sequelize) {
@@ -118,7 +117,7 @@ class Category extends Sequelize.Model {
       sourceKey: 'id',
     });
   }
-};
+}
 
 class Allergy extends Sequelize.Model {
   static init(sequelize) {
@@ -144,7 +143,7 @@ class Allergy extends Sequelize.Model {
     db.Allergy.belongsToMany(db.Product, { through: db.ProductAllergy });
     db.Allergy.belongsToMany(db.User, { through: db.UserAllergy });
   }
-};
+}
 
 class ProductAllergy extends Sequelize.Model {
   static init(sequelize) {
@@ -161,7 +160,7 @@ class ProductAllergy extends Sequelize.Model {
       }
     );
   }
-};
+}
 
 module.exports = {
   Product: Product,
@@ -170,4 +169,4 @@ module.exports = {
   Category: Category,
   Allergy: Allergy,
   ProductAllergy: ProductAllergy,
-}
+};
