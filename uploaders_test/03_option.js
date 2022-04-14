@@ -1,7 +1,7 @@
 const fs = require('fs');
 const fastcsv = require('fast-csv');
 
-let stream = fs.createReadStream('CSV_Product.csv');
+let stream = fs.createReadStream('CSV_Option.csv');
 let csvData = [];
 let csvStream = fastcsv
   .parse()
@@ -23,12 +23,12 @@ csvData.shift();
 const pool = new Pool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
-  database: process.env.DB_NAME,
+  database: process.env.DB_NAME_TEST,
   password: process.env.DB_PW,
   port: process.env.DB_PORT,
 });
 const query =
-  'INSERT INTO products (name, description,created_at, updated_at,category,method) VALUES ($1, $2, now(), now(),$3,$4)';
+  'INSERT INTO options (name, created_at, updated_at) VALUES ($1, now(), now())';
 pool.connect((err, client, done) => {
   if (err) throw err;
   try {
@@ -42,8 +42,7 @@ pool.connect((err, client, done) => {
       });
     });
   } finally {
+    console.log('done');
     done();
   }
 });
-
-console.log('done');

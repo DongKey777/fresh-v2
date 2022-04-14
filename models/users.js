@@ -43,7 +43,7 @@ class User extends Sequelize.Model {
       foreignKey: 'subscription',
     });
   }
-};
+}
 
 class UserAllergy extends Sequelize.Model {
   static init(sequelize) {
@@ -60,9 +60,9 @@ class UserAllergy extends Sequelize.Model {
       }
     );
   }
-};
+}
 
 module.exports = {
-  User : User,
+  User: User,
   UserAllergy: UserAllergy,
-}
+};
