@@ -28,6 +28,8 @@
     "enum": "^3.0.4",
     "jest": "^27.5.1",
     "prettier": "2.6.2",
+    "sequelize-mock": "^0.10.2",
+    "supertest": "^6.2.2",
     "swagger-jsdoc": "^6.2.0",
     "swagger-ui-express": "^4.3.0"
   }
