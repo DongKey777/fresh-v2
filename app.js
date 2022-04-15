@@ -41,6 +41,6 @@ app.use(function (err, req, res) {
   res.render('error');
 });
 
-sequelize.sync();
+// sequelize.sync();
 
 module.exports = app;

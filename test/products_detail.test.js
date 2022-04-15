@@ -1,5 +1,40 @@
+jest.mock('../models/products');
+
+const ProductOption = require('../models/products');
+
 const app = require('../app');
 const request = require('supertest');
+
+describe('Retrieve Product List API TEST', () => {
+  test('[Success] 상품 전체 리스트 조회 상태코드 200 반환', async () => {
+    ProductOption.findAll.mockResolvedValue(
+      Promise.resolve({
+        results: [
+          {
+            id: 1,
+            product_id: 1,
+          },
+          {
+            id: 2,
+            product_id: 1,
+          },
+          {
+            id: 3,
+            product_id: 2,
+          },
+        ],
+      })
+    );
+    await request.get('/products').expect(200);
+    expect(ProductOption.findeAll).toBeCalledTimes(1);
+  });
+
+  test('[Success] 상품 리스트 카테고리 별 필터링', async () => {
+    const products_options = ProductOption.findAll.mockResolvedValue();
+    const res = await request(app).get('/products');
+    expect(res.statusCode).toEqual(200);
+  });
+});
 
 describe('Product Detail API TEST', () => {
   test('successWithParameters', async () => {

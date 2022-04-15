@@ -20,7 +20,7 @@ router.post('/signup', async (req, res, next) => {
     return res.status(400).json({ message: 'USER ALREADY EXISTS' });
   }
 
-  bcrypt.hash(password, 10, async(err, hashedPw) => {
+  bcrypt.hash(password, 10, async (err, hashedPw) => {
     if (err) {
       return res.status(500).json({ message: 'INTERNAL SERVER ERROR' });
     }
