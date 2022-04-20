@@ -28,7 +28,7 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 const query =
-  'INSERT INTO products_allergies (created_at, updated_at, product_id, allergy_id) VALUES (now(), now(), $1, $2)';
+  'INSERT INTO products_allergies (allergy_id, product_id) VALUES ($1, $2)';
 pool.connect((err, client, done) => {
   if (err) throw err;
   try {

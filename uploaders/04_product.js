@@ -28,18 +28,20 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 const query =
-  'INSERT INTO products (name, description,created_at, updated_at,category,method) VALUES ($1, $2, now(), now(),$3,$4)';
+  'INSERT INTO products (name, description,category_id, purchase_method_id) VALUES ($1, $2,$3,$4)';
 pool.connect((err, client, done) => {
   if (err) throw err;
   try {
     csvData.forEach((row) => {
-      client.query(query, row, (err, res) => {
-        if (err) {
-          console.log(err.stack);
-        } else {
-          console.log('inserted ' + res.rowCount + ' row:', row);
-        }
-      });
+      setTimeout(() => {
+        client.query(query, row, (err, res) => {
+          if (err) {
+            console.log(err.stack);
+          } else {
+            console.log('inserted ' + res.rowCount + ' row:', row);
+          }
+        });
+      }, 300);
     });
   } finally {
     done();
