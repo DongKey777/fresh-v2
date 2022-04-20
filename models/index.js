@@ -70,6 +70,5 @@ ProductOption.associate(db);
 Category.associate(db);
 Allergy.associate(db);
 Subscription.associate(db);
-Cart.associate(db);
 
 module.exports = db;

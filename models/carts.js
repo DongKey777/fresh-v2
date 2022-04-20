@@ -1,12 +1,36 @@
 const Sequelize = require('sequelize');
 
- class Cart extends Sequelize.Model {
+class Cart extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
-      {},
+      {
+        id: {
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        productOptionId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'products_options',
+            key: 'id',
+          },
+          allowNull: false,
+          unique: false,
+        },
+        userId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'users',
+            key: 'id',
+          },
+          allowNull: false,
+          unique: false,
+        },
+      },
       {
         sequelize,
-        timestamp: true,
+        timestamps: true,
         underscored: true, // camel case -> snake case
         modelName: 'Cart',
         tableName: 'carts', // 실제 db table 명
@@ -15,14 +39,8 @@ const Sequelize = require('sequelize');
       }
     );
   }
-  static associate(db) {
-    db.Cart.belongsTo(db.ProductOption, {
-      foreignkey: 'product',
-      sourceKey: 'id',
-    });
-  }
-};
+}
 
 module.exports = {
-  Cart : Cart
-}
+  Cart: Cart,
+};

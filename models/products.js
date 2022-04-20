@@ -4,6 +4,11 @@ class Product extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+        id: {
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+        },
         name: {
           type: Sequelize.STRING(50),
           allowNull: false,
@@ -13,13 +18,22 @@ class Product extends Sequelize.Model {
           type: Sequelize.TEXT(50),
           allowNull: true,
         },
-        method: {
+        purchaseMethodId: {
           type: Sequelize.INTEGER,
+          allowNull: true,
+        },
+        categoryId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'categories',
+            key: 'id',
+          },
+          allowNull: false,
         },
       },
       {
         sequelize,
-        timestamp: true,
+        timestamps: false,
         underscored: true, // camel case -> snake case
         modelName: 'Product',
         tableName: 'products', // 실제 db table 명
@@ -29,10 +43,7 @@ class Product extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Product.belongsTo(db.Category, {
-      foreignKey: 'category',
-      targetKey: 'id',
-    });
+    db.Product.belongsTo(db.Category);
     db.Product.belongsToMany(db.Option, { through: db.ProductOption });
     db.Product.belongsToMany(db.Allergy, { through: db.ProductAllergy });
   }
@@ -42,6 +53,11 @@ class Option extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+        id: {
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+        },
         name: {
           type: Sequelize.STRING(50),
           allowNull: false,
@@ -50,7 +66,7 @@ class Option extends Sequelize.Model {
       },
       {
         sequelize,
-        timestamp: true,
+        timestamps: false,
         underscored: true, // camel case -> snake case
         modelName: 'Option',
         tableName: 'options', // 실제 db table 명
@@ -68,14 +84,37 @@ class ProductOption extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+        id: {
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+        },
         price: {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
+        productId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'products',
+            key: 'id',
+          },
+          allowNull: false,
+          unique: false,
+        },
+        optionId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'options',
+            key: 'id',
+          },
+          allowNull: false,
+          unique: false,
+        },
       },
       {
         sequelize,
-        timestamp: true,
+        timestamps: false,
         underscored: true, // camel case -> snake case
         modelName: 'ProductOption',
         tableName: 'products_options', // 실제 db table 명
@@ -85,9 +124,9 @@ class ProductOption extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.ProductOption.hasMany(db.Subscription, {
-      foreignKey: 'product_option',
-    });
+    db.ProductOption.hasMany(db.Subscription);
+    db.ProductOption.belongsToMany(db.User, { through: db.Cart });
+    db.ProductOption.belongsToMany(db.Order, { through: db.OrderItem });
   }
 }
 
@@ -95,6 +134,11 @@ class Category extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+        id: {
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+        },
         name: {
           type: Sequelize.STRING(50),
           allowNull: false,
@@ -102,7 +146,7 @@ class Category extends Sequelize.Model {
       },
       {
         sequelize,
-        timestamp: false,
+        timestamps: false,
         underscored: true,
         modelName: 'Category',
         tableName: 'categories',
@@ -112,10 +156,7 @@ class Category extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Category.hasMany(db.Product, {
-      foreignKey: 'category',
-      sourceKey: 'id',
-    });
+    db.Category.hasMany(db.Product);
   }
 }
 
@@ -123,6 +164,11 @@ class Allergy extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+        id: {
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+        },
         name: {
           type: Sequelize.STRING(30),
           allowNull: false,
@@ -130,7 +176,7 @@ class Allergy extends Sequelize.Model {
       },
       {
         sequelize,
-        timestamp: false,
+        timestamps: false,
         underscored: true, // camel case -> snake case
         modelName: 'Allergy',
         tableName: 'allergies', // 실제 db table 명
@@ -148,10 +194,34 @@ class Allergy extends Sequelize.Model {
 class ProductAllergy extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
-      {},
+      {
+        id: {
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        productId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'products',
+            key: 'id',
+          },
+          allowNull: false,
+          unique: false,
+        },
+        allergyId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'allergies',
+            key: 'id',
+          },
+          allowNull: false,
+          unique: false,
+        },
+      },
       {
         sequelize,
-        timestamp: false,
+        timestamps: false,
         underscored: true,
         modelName: 'ProductAllergy',
         tableName: 'products_allergies',

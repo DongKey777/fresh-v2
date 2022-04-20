@@ -27,8 +27,7 @@ const pool = new Pool({
   password: process.env.DB_PW,
   port: process.env.DB_PORT,
 });
-const query =
-  'INSERT INTO allergies (name, created_at, updated_at) VALUES ($1, now(), now())';
+const query = 'INSERT INTO allergies (name) VALUES ($1)';
 pool.connect((err, client, done) => {
   if (err) throw err;
   try {

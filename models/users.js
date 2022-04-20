@@ -4,6 +4,11 @@ class User extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+        id: {
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+        },
         email: {
           type: Sequelize.STRING(50),
           allowNull: false,
@@ -16,22 +21,29 @@ class User extends Sequelize.Model {
         name: {
           type: Sequelize.STRING(50),
         },
-        image: {
+        imageUrl: {
           type: Sequelize.STRING(2000),
           allowNull: true,
         },
-        deleted_fl: {
+        deletedFl: {
           type: Sequelize.BOOLEAN,
           defaultValue: false,
+        },
+        subscriptionId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'subscriptions',
+            key: 'id',
+          },
         },
       },
       {
         sequelize,
-        timestamp: true,
+        timestamps: true,
         underscored: true, // camel case -> snake case
         modelName: 'User',
         tableName: 'users', // 실제 db table 명
-        paranoid: true, // deleted at, soft delete 설정 여부, timestamp: true 인 경우에만 사용 가능
+        paranoid: true, // deleted at, soft delete 설정 여부, timestamps: true 인 경우에만 사용 가능
         charset: 'utf8mb4',
         collate: 'utf8mb4_general_cli',
       }
@@ -39,19 +51,42 @@ class User extends Sequelize.Model {
   }
   static associate(db) {
     db.User.belongsToMany(db.Allergy, { through: db.UserAllergy });
-    db.User.belongsTo(db.Subscription, {
-      foreignKey: 'subscription',
-    });
+    db.User.belongsTo(db.Subscription);
+    db.User.hasMany(db.Order);
+    db.User.belongsToMany(db.ProductOption, { through: db.Cart });
   }
 }
 
 class UserAllergy extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
-      {},
+      {
+        id: {
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        userId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'subscriptions',
+            key: 'id',
+          },
+          unique: false,
+        },
+        allergyId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'subscriptions',
+            key: 'id',
+          },
+          allowNull: false,
+          unique: false,
+        },
+      },
       {
         sequelize,
-        timestamp: true,
+        timestamps: true,
         underscored: true,
         modelName: 'UserAllergy',
         tableName: 'users_allergies',
