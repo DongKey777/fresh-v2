@@ -44,7 +44,7 @@ class Order extends Sequelize.Model {
   }
   static associate(db) {
     db.Order.belongsTo(db.User);
-    db.Order.belongsToMany(db.ProductOption, { through: 'OrderItem' });
+    // db.Order.belongsToMany(db.ProductOption, { through: 'OrderItem' });
   }
 }
 

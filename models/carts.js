@@ -27,6 +27,9 @@ class Cart extends Sequelize.Model {
           allowNull: false,
           unique: false,
         },
+        quantity: {
+          type: Sequelize.INTEGER
+        }
       },
       {
         sequelize,

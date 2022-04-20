@@ -50,10 +50,10 @@ class User extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.User.belongsToMany(db.Allergy, { through: db.UserAllergy });
+    // db.User.belongsToMany(db.Allergy, { through: db.UserAllergy });
     db.User.belongsTo(db.Subscription);
     db.User.hasMany(db.Order);
-    db.User.belongsToMany(db.ProductOption, { through: db.Cart });
+    // db.User.belongsToMany(db.ProductOption, { through: db.Cart });
   }
 }
 

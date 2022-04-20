@@ -44,8 +44,8 @@ class Product extends Sequelize.Model {
   }
   static associate(db) {
     db.Product.belongsTo(db.Category);
-    db.Product.belongsToMany(db.Option, { through: db.ProductOption });
-    db.Product.belongsToMany(db.Allergy, { through: db.ProductAllergy });
+    // db.Product.belongsToMany(db.Option, { through: db.ProductOption });
+    // db.Product.belongsToMany(db.Allergy, { through: db.ProductAllergy });
   }
 }
 
@@ -76,7 +76,7 @@ class Option extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Option.belongsToMany(db.Product, { through: db.ProductOption });
+    // db.Option.belongsToMany(db.Product, { through: db.ProductOption });
   }
 }
 
@@ -125,8 +125,8 @@ class ProductOption extends Sequelize.Model {
   }
   static associate(db) {
     db.ProductOption.hasMany(db.Subscription);
-    db.ProductOption.belongsToMany(db.User, { through: db.Cart });
-    db.ProductOption.belongsToMany(db.Order, { through: db.OrderItem });
+    // db.ProductOption.belongsToMany(db.User, { through: db.Cart });
+    // db.ProductOption.belongsToMany(db.Order, { through: db.OrderItem });
   }
 }
 
@@ -186,8 +186,8 @@ class Allergy extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Allergy.belongsToMany(db.Product, { through: db.ProductAllergy });
-    db.Allergy.belongsToMany(db.User, { through: db.UserAllergy });
+    // db.Allergy.belongsToMany(db.Product, { through: db.ProductAllergy });
+    // db.Allergy.belongsToMany(db.User, { through: db.UserAllergy });
   }
 }
 
