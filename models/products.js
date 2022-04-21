@@ -44,8 +44,7 @@ class Product extends Sequelize.Model {
   }
   static associate(db) {
     db.Product.belongsTo(db.Category);
-    // db.Product.belongsToMany(db.Option, { through: db.ProductOption });
-    // db.Product.belongsToMany(db.Allergy, { through: db.ProductAllergy });
+    db.Product.hasMany(db.ProductOption);
   }
 }
 
@@ -76,7 +75,7 @@ class Option extends Sequelize.Model {
     );
   }
   static associate(db) {
-    // db.Option.belongsToMany(db.Product, { through: db.ProductOption });
+    db.Option.hasMany(db.ProductOption);
   }
 }
 
@@ -125,8 +124,10 @@ class ProductOption extends Sequelize.Model {
   }
   static associate(db) {
     db.ProductOption.hasMany(db.Subscription);
-    // db.ProductOption.belongsToMany(db.User, { through: db.Cart });
-    // db.ProductOption.belongsToMany(db.Order, { through: db.OrderItem });
+    db.ProductOption.belongsTo(db.Product);
+    db.ProductOption.belongsTo(db.Option);
+    db.ProductOption.hasMany(db.Cart);
+    db.ProductOption.hasMany(db.OrderItem);
   }
 }
 
@@ -186,8 +187,8 @@ class Allergy extends Sequelize.Model {
     );
   }
   static associate(db) {
-    // db.Allergy.belongsToMany(db.Product, { through: db.ProductAllergy });
-    // db.Allergy.belongsToMany(db.User, { through: db.UserAllergy });
+    db.Allergy.hasMany(db.ProductAllergy);
+    db.Allergy.hasMany(db.UserAllergy);
   }
 }
 
@@ -229,6 +230,10 @@ class ProductAllergy extends Sequelize.Model {
         collate: 'utf8mb4_general_cli',
       }
     );
+  }
+  static associate(db){
+    db.ProductAllergy.belongsTo(db.Product);
+    db.ProductAllergy.belongsTo(db.Allergy);
   }
 }
 
