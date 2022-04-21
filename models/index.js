@@ -64,6 +64,11 @@ UserAllergy.init(sequelize);
 Cart.init(sequelize);
 
 User.associate(db);
+Cart.associate(db);
+OrderItem.associate(db);
+Option.associate(db);
+ProductAllergy.associate(db);
+UserAllergy.associate(db);
 Order.associate(db);
 Product.associate(db);
 ProductOption.associate(db);

@@ -42,6 +42,10 @@ class Cart extends Sequelize.Model {
       }
     );
   }
+  static associate(db){
+    db.Cart.belongsTo(db.User);
+    db.Cart.belongsTo(db.ProductOption);
+  }
 }
 
 module.exports = {

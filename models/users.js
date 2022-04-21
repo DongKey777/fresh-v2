@@ -50,10 +50,10 @@ class User extends Sequelize.Model {
     );
   }
   static associate(db) {
-    // db.User.belongsToMany(db.Allergy, { through: db.UserAllergy });
     db.User.belongsTo(db.Subscription);
     db.User.hasMany(db.Order);
-    // db.User.belongsToMany(db.ProductOption, { through: db.Cart });
+    db.User.hasMany(db.Cart);
+    db.User.hasMany(db.UserAllergy);
   }
 }
 
@@ -94,6 +94,10 @@ class UserAllergy extends Sequelize.Model {
         collate: 'utf8mb4_general_cli',
       }
     );
+  }
+  static associate(db){
+    db.UserAllergy.belongsTo(db.User);
+    db.UserAllergy.belongsTo(db.Allergy);
   }
 }
 
